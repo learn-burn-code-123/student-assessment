@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>评估报告 - 学生评估系统</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            padding-bottom: 50px;
+        }
+        .navbar {
+            background-color: rgba(228,70,47,255) !important;
+        }
+        .report-header {
+            background: rgba(228,70,47,255);
+            color: white;
+            padding: 40px 0;
+            margin-bottom: 30px;
+        }
+        .report-card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        .report-section {
+            margin-bottom: 30px;
+        }
+        .section-title {
+            border-bottom: 2px solid rgba(228,70,47,255);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .btn-primary {
+            background-color: rgba(228,70,47,255);
+            border-color: rgba(228,70,47,255);
+        }
+        .btn-primary:hover {
+            background-color: rgba(208,60,37,255);
+            border-color: rgba(208,60,37,255);
+        }
+        .report-nav {
+            position: sticky;
+            top: 20px;
+        }
+        .report-nav .nav-link {
+            color: #495057;
+            border-radius: 5px;
+            padding: 10px 15px;
+            margin-bottom: 5px;
+        }
+        .report-nav .nav-link.active {
+            background-color: #4b6cb7;
+            color: white;
+        }
+        .highlight {
+            background-color: #e9f0ff;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #4b6cb7;
+            margin-bottom: 20px;
+        }
+        .print-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 100;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            .report-card {
+                box-shadow: none;
+                margin-bottom: 20px;
+            }
+            .report-header {
+                background: #4b6cb7 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .highlight {
+                background-color: #e9f0ff !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark no-print">
+        <div class="container">
+            <a class="navbar-brand" href="/">学生评估系统</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/assessment">评估</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="report-header">
+        <div class="container">
+            <h1 class="fw-bold">个性化评估报告</h1>
+            <p class="lead">基于您的回答生成的个性化分析和建议</p>
+            <p class="mb-0">报告生成日期: <span id="reportDate"></span></p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 d-none d-lg-block no-print">
+                <div class="report-nav">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title mb-3">报告导航</h5>
+                            <div class="nav flex-column nav-pills">
+                                <a class="nav-link active" href="#summary">总体概述</a>
+                                <a class="nav-link" href="#academic">学术分析</a>
+                                <a class="nav-link" href="#personality">性格洞察</a>
+                                <a class="nav-link" href="#career">职业指导</a>
+                                <a class="nav-link" href="#extracurricular">课外活动建议</a>
+                                <a class="nav-link" href="#development">发展计划</a>
+                                <a class="nav-link" href="#university">大学申请建议</a>
+                                <a class="nav-link" href="#ai-skills">AI时代必备技能</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <div class="report-card">
+                    <div class="card-body p-4">
+                        <!-- Summary Section -->
+                        <div class="report-section" id="summary">
+                            <h2 class="section-title">总体概述</h2>
+                            <div class="highlight">
+                                <p class="mb-0">{{ report.summary }}</p>
+                            </div>
+                        </div>
+
+                        <!-- Academic Analysis Section -->
+                        <div class="report-section" id="academic">
+                            <h2 class="section-title">学术分析</h2>
+                            <div class="mb-4">
+                                {{ report.academic_analysis|safe }}
+                            </div>
+                        </div>
+
+                        <!-- Personality Insights Section -->
+                        <div class="report-section" id="personality">
+                            <h2 class="section-title">性格洞察</h2>
+                            <div class="mb-4">
+                                {{ report.personality_insights|safe }}
+                            </div>
+                        </div>
+
+                        <!-- Career Guidance Section -->
+                        <div class="report-section" id="career">
+                            <h2 class="section-title">职业指导</h2>
+                            <div class="mb-4">
+                                {{ report.career_guidance|safe }}
+                            </div>
+                        </div>
+
+                        <!-- Extracurricular Recommendations Section -->
+                        <div class="report-section" id="extracurricular">
+                            <h2 class="section-title">课外活动建议</h2>
+                            <div class="mb-4">
+                                {{ report.extracurricular_recommendations|safe }}
+                            </div>
+                        </div>
+
+                        <!-- Development Plan Section -->
+                        <div class="report-section" id="development">
+                            <h2 class="section-title">发展计划</h2>
+                            <div class="mb-4">
+                                {{ report.development_plan|safe }}
+                            </div>
+                        </div>
+
+                        <!-- University Application Advice Section -->
+                        <div class="report-section" id="university">
+                            <h2 class="section-title">大学申请建议</h2>
+                            <div class="mb-4">
+                                {{ report.university_application_advice|safe }}
+                            </div>
+                        </div>
+
+                        <!-- AI Era Skills Section -->
+                        <div class="report-section" id="ai-skills">
+                            <h2 class="section-title">AI时代必备技能</h2>
+                            <div class="mb-4">
+                                {{ report.ai_era_skills|safe }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card report-card">
+                    <div class="card-body p-4">
+                        <h3 class="mb-3">免责声明</h3>
+                        <p>本评估报告基于您提供的信息生成，仅供参考。我们建议您将此报告作为自我了解和发展的工具之一，而不是唯一依据。在做出重要决定时，请咨询专业教育顾问、老师或家长的意见。</p>
+                        <p class="mb-0">© 2025 学生评估系统. 保留所有权利。</p>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2 col-md-6 mx-auto mt-4 no-print">
+                    <a href="/assessment" class="btn btn-outline-primary">重新评估</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="btn btn-primary btn-lg rounded-circle print-btn no-print" onclick="window.print()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-printer" viewBox="0 0 16 16">
+            <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
+            <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z"/>
+        </svg>
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set report date
+            const now = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('reportDate').textContent = now.toLocaleDateString('zh-CN', options);
+            
+            // Smooth scroll to sections
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Update active link
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Scroll to section
+                    const targetId = this.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+                    
+                    window.scrollTo({
+                        top: targetSection.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+            
+            // Update active nav link on scroll
+            window.addEventListener('scroll', function() {
+                const sections = document.querySelectorAll('.report-section');
+                let currentSection = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 150;
+                    const sectionHeight = section.offsetHeight;
+                    
+                    if (window.pageYOffset >= sectionTop && window.pageYOffset < sectionTop + sectionHeight) {
+                        currentSection = '#' + section.getAttribute('id');
+                    }
+                });
+                
+                if (currentSection !== '') {
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === currentSection) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

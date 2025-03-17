@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学生评估系统</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background-color: #ffffff;
+            color: #333;
+        }
+        .hero-section {
+            background: rgba(228,70,47,255);
+            color: white;
+            padding: 80px 0;
+            margin-bottom: 40px;
+        }
+        .feature-card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: rgba(228,70,47,255);
+        }
+        .btn-primary {
+            background-color: rgba(228,70,47,255);
+            border-color: rgba(228,70,47,255);
+            padding: 10px 25px;
+            font-weight: 600;
+        }
+        .btn-primary:hover {
+            background-color: rgba(208,60,37,255);
+            border-color: rgba(208,60,37,255);
+        }
+        .footer {
+            background-color: rgba(228,70,47,255);
+            color: white;
+            padding: 30px 0;
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: rgba(228,70,47,255);">
+        <div class="container">
+            <a class="navbar-brand" href="/">学生评估系统</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/assessment">开始评估</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">关于我们</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero-section text-center">
+        <div class="container">
+            <h1 class="display-4 fw-bold mb-4">个性化学生评估系统</h1>
+            <p class="lead mb-5">通过AI辅助评估，帮助中国高中生了解自己的发展状况、兴趣和能力，<br>为申请顶尖美国、英国和香港大学提供个性化建议。</p>
+            <a href="/assessment" class="btn btn-light btn-lg">开始评估</a>
+        </div>
+    </section>
+
+    <section class="container mb-5">
+        <div class="row text-center mb-5">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="fw-bold">为什么选择我们的评估系统？</h2>
+                <p class="lead text-muted">我们提供的不是通用模板，而是基于您的独特情况提供个性化分析和建议</p>
+            </div>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card feature-card p-4">
+                    <div class="card-body text-center">
+                        <div class="feature-icon">🧠</div>
+                        <h5 class="card-title fw-bold">全面评估</h5>
+                        <p class="card-text">从学术能力到性格特点，从职业兴趣到发展潜力，多维度评估您的情况。</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card feature-card p-4">
+                    <div class="card-body text-center">
+                        <div class="feature-icon">🤖</div>
+                        <h5 class="card-title fw-bold">AI辅助分析</h5>
+                        <p class="card-text">利用先进的AI技术，分析您的回答并生成个性化的评估报告和建议。</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card feature-card p-4">
+                    <div class="card-body text-center">
+                        <div class="feature-icon">🎓</div>
+                        <h5 class="card-title fw-bold">申请指导</h5>
+                        <p class="card-text">针对顶尖美国、英国和香港大学的申请要求，提供具体的发展建议。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container mb-5" id="about">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h2 class="fw-bold mb-4">关于我们的评估系统</h2>
+                <p>在当今竞争激烈的大学申请环境中，了解自己的优势和发展方向至关重要。我们的评估系统旨在帮助中国高中生全面认识自己，并为未来的学术和职业发展做好准备。</p>
+                <p>与市场上常见的通用模板式评估不同，我们的系统利用AI技术，根据您的具体情况提供个性化的分析和建议，帮助您在申请过程中脱颖而出。</p>
+                <p>在AI加速发展的时代，我们的评估还会考虑未来技术变革对不同领域的影响，帮助您做好准备，迎接未来的挑战和机遇。</p>
+                <a href="/assessment" class="btn btn-primary mt-3">开始您的评估</a>
+            </div>
+            <div class="col-lg-6">
+                <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" class="img-fluid rounded shadow" alt="学生学习图片">
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>学生评估系统</h5>
+                    <p>帮助中国高中生了解自己，为顶尖大学申请做准备</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p>&copy; 2025 学生评估系统. 保留所有权利。</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
