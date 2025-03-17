@@ -28,6 +28,8 @@
 
 ## 安装与运行
 
+> 最后更新: 2025-03-18
+
 1. 克隆仓库
 2. 安装依赖: `pip install -r requirements.txt`
 3. 设置环境变量 (参见 `.env.example`)
