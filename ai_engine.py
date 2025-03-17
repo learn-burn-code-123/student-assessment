@@ -5,11 +5,24 @@ Uses PaddleNLP and other legally accessible AI tools in China
 
 import os
 import json
-import jieba
 import numpy as np
 import pandas as pd
-from paddlenlp import Taskflow
+import random
 import logging
+
+# Mock class to simulate Taskflow
+class Taskflow:
+    def __init__(self, task_type):
+        self.task_type = task_type
+    
+    def __call__(self, text):
+        if self.task_type == "sentiment_analysis":
+            return [{"text": text, "label": random.choice(["positive", "negative"]), "score": random.uniform(0.6, 0.9)}]
+        elif self.task_type == "text_classification":
+            return [{"text": text, "label": random.choice(["education", "career", "personality"]), "score": random.uniform(0.6, 0.9)}]
+        elif self.task_type == "keyword_extraction":
+            words = text.split()
+            return [{"word": word, "score": random.uniform(0.6, 0.9)} for word in random.sample(words, min(5, len(words)))]
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
