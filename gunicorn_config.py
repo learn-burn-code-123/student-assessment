@@ -8,8 +8,8 @@ import multiprocessing
 # Bind to the port provided by Render
 bind = f"0.0.0.0:{os.environ.get('PORT', '5000')}"
 
-# Use a reasonable number of workers
-workers = 2
+# Use minimal workers for Render free tier
+workers = 1
 
 # Use a single thread per worker to reduce memory usage
 threads = 1

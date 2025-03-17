@@ -3,7 +3,7 @@ services:
     name: student-assessment
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn app:app -c gunicorn_config.py
+    startCommand: gunicorn render_app:app -c gunicorn_config.py
     healthCheckPath: /
     plan: starter
     autoDeploy: true
