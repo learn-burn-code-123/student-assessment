@@ -28,7 +28,7 @@
 
 ## 安装与运行
 
-> 最后更新: 2025-03-18 by learn-burn-code-123
+> 最后更新: 2025-03-18
 
 1. 克隆仓库
 2. 安装依赖: `pip install -r requirements.txt`
