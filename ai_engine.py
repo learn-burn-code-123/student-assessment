@@ -83,10 +83,20 @@ class AIEngine:
     def __init__(self):
         """Initialize AI components"""
         try:
-            # Initialize PaddleNLP components
-            self.sentiment_analyzer = Taskflow("sentiment_analysis")
-            self.text_classifier = Taskflow("text_classification")
-            self.keyword_extractor = Taskflow("keyword_extraction")
+            # Initialize with a more lightweight approach
+            # Check if we're in a memory-constrained environment (like Render free tier)
+            if os.environ.get('RENDER') == 'true' and os.environ.get('RENDER_MEMORY_LIMIT'):
+                # Use a more lightweight approach for Render
+                logger.info("Running in Render environment with memory constraints. Using lightweight mode.")
+                self.is_lightweight = True
+            else:
+                self.is_lightweight = False
+                
+            # Initialize PaddleNLP components only if not in lightweight mode
+            if not self.is_lightweight:
+                self.sentiment_analyzer = Taskflow("sentiment_analysis")
+                self.text_classifier = Taskflow("text_classification")
+                self.keyword_extractor = Taskflow("keyword_extraction")
             
             # Load education and career data
             self.education_data = self._load_data('education_data.json')
@@ -98,6 +108,7 @@ class AIEngine:
         except Exception as e:
             logger.error(f"Error initializing AI Engine: {str(e)}")
             self.is_available = False
+            self.is_lightweight = True
     
     def _load_data(self, filename):
         """Load data from JSON file, or return empty dict if file not found"""
@@ -401,8 +412,8 @@ class AIEngine:
     
     def generate_enhanced_report(self, responses):
         """Generate an enhanced assessment report with AI insights"""
-        if not self.is_available:
-            logger.warning("AI Engine not available, returning basic report")
+        if not self.is_available or getattr(self, 'is_lightweight', False):
+            logger.warning("AI Engine not available or running in lightweight mode, returning basic report")
             return self._generate_basic_report(responses)
         
         try:

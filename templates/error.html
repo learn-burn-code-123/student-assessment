@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>错误 - 学生评估系统</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        .error-container {
+            max-width: 800px;
+            margin: 100px auto;
+            padding: 40px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .error-icon {
+            font-size: 72px;
+            color: #e74c3c;
+            margin-bottom: 20px;
+        }
+        .error-message {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .back-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .back-button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-icon">⚠️</div>
+        <h1>出错了</h1>
+        <div class="error-message">
+            {{ error }}
+        </div>
+        <a href="{{ url_for('index') }}" class="back-button">返回首页</a>
+    </div>
+</body>
+</html>

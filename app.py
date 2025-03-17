@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify, render_template, redirect, url_for, session
 import os
+import sys
 import json
 import requests
 import logging
+import traceback
 from dotenv import load_dotenv
 from ai_engine import AIEngine
 
@@ -10,11 +12,27 @@ from ai_engine import AIEngine
 load_dotenv()
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+log_level = logging.DEBUG if os.getenv('DEBUG', 'False').lower() == 'true' else logging.INFO
+logging.basicConfig(level=log_level, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
+
+# Log deployment environment information
+logger.info(f"Starting application in {os.getenv('FLASK_ENV', 'development')} mode")
+logger.info(f"Python version: {sys.version}")
+logger.info(f"Running on Render: {os.getenv('RENDER', 'false')}")
 
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', 'dev-secret-key')
+
+# Configure error handling
+@app.errorhandler(500)
+def server_error(e):
+    logger.error(f"Server error: {str(e)}\n{traceback.format_exc()}")
+    return render_template('error.html', error="Internal server error. Please try again later."), 500
+
+@app.errorhandler(404)
+def not_found(e):
+    return render_template('error.html', error="Page not found."), 404
 
 # Initialize AI Engine
 ai_engine = AIEngine()
@@ -102,7 +120,7 @@ def generate_report(responses):
         # Use the AI Engine to generate an enhanced report
         return ai_engine.generate_enhanced_report(responses)
     except Exception as e:
-        logger.error(f"Error generating report: {str(e)}")
+        logger.error(f"Error generating report: {str(e)}\n{traceback.format_exc()}")
         # Fallback report in case of errors
         return {
             "summary": "无法生成完整的个性化报告。请检查您的回答是否完整，或稍后再试。",
