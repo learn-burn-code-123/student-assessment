@@ -670,10 +670,13 @@ class AIEngine:
 
             # Use Hugging Face Inference API to access open-source LLM models
             # Get model preference from environment or use default
-            model_preference = os.getenv('LLM_MODEL_PREFERENCE', 'llama').lower()
+            model_preference = os.getenv('LLM_MODEL_PREFERENCE', 'llama3').lower()
             
             # Select model based on preference
-            if model_preference == 'llama':
+            if model_preference == 'llama3':
+                model_id = "meta-llama/Meta-Llama-3-8B"  # Meta's Llama 3 model (lightweight 8B version)
+                logger.info("Using Llama 3 (8B) model for report generation")
+            elif model_preference == 'llama2':
                 model_id = "meta-llama/Llama-2-7b-chat-hf"  # Meta's Llama 2 model
                 logger.info("Using Llama 2 model for report generation")
             elif model_preference == 'mistral':
@@ -683,9 +686,9 @@ class AIEngine:
                 model_id = "tiiuae/falcon-7b-instruct"  # Falcon model
                 logger.info("Using Falcon model for report generation")
             else:
-                # Default to Llama 2
-                model_id = "meta-llama/Llama-2-7b-chat-hf"
-                logger.info(f"Unknown model preference '{model_preference}', defaulting to Llama 2")
+                # Default to Llama 3
+                model_id = "meta-llama/Meta-Llama-3-8B"
+                logger.info(f"Unknown model preference '{model_preference}', defaulting to Llama 3 (8B)")
             
             try:
                 # Use Hugging Face Inference API

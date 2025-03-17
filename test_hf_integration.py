@@ -73,7 +73,7 @@ class TestHFIntegration(unittest.TestCase):
             self.skipTest("HF_API_TOKEN not found")
         
         # Get model preference
-        model_preference = os.getenv('LLM_MODEL_PREFERENCE', 'llama')
+        model_preference = os.getenv('LLM_MODEL_PREFERENCE', 'llama3')
         logger.info(f"Testing with model preference: {model_preference}")
         
         # Ensure token validation passes for testing
