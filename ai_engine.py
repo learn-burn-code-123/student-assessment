@@ -734,18 +734,20 @@ class AIEngine:
                     logger.info("Attempting to use local model as fallback")
                     # This is a lighter approach that can run on the server
                     # We'll use a smaller model for local inference
-                    model_preference = os.getenv('LLM_MODEL_PREFERENCE', 'deepseek').lower()
+                    model_preference = os.getenv('LLM_MODEL_PREFERENCE', 'llama3').lower()
                     
                     # Select model path based on preference
-                    if model_preference == 'deepseek':
-                        model_path = "deepseek-ai/deepseek-llm-7b-chat"  # DeepSeek model
-                    elif model_preference == 'chatglm':
-                        model_path = "THUDM/chatglm3-6b"  # ChatGLM model
-                    elif model_preference == 'baichuan':
-                        model_path = "baichuan-inc/Baichuan2-7B-Chat"  # Baichuan model
+                    if model_preference == 'llama3':
+                        model_path = "meta-llama/Meta-Llama-3-8B"  # Llama 3 model
+                    elif model_preference == 'llama2':
+                        model_path = "meta-llama/Llama-2-7b-chat-hf"  # Llama 2 model
+                    elif model_preference == 'mistral':
+                        model_path = "mistralai/Mistral-7B-Instruct-v0.2"  # Mistral model
+                    elif model_preference == 'falcon':
+                        model_path = "tiiuae/falcon-7b-instruct"  # Falcon model
                     else:
-                        # Default to DeepSeek
-                        model_path = "deepseek-ai/deepseek-llm-7b-chat"
+                        # Default to Llama 3
+                        model_path = "meta-llama/Meta-Llama-3-8B"
                     
                     # Check if we have enough resources for local inference
                     if torch.cuda.is_available() or torch.backends.mps.is_available():

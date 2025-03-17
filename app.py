@@ -120,15 +120,17 @@ def report():
     responses = session['responses']
     
     # Get model name for the template
-    model_preference = os.getenv('LLM_MODEL_PREFERENCE', 'deepseek').lower()
-    if model_preference == 'deepseek':
-        model_name = "DeepSeek R1"
-    elif model_preference == 'chatglm':
-        model_name = "ChatGLM3"
-    elif model_preference == 'baichuan':
-        model_name = "Baichuan2"
+    model_preference = os.getenv('LLM_MODEL_PREFERENCE', 'llama3').lower()
+    if model_preference == 'llama3':
+        model_name = "Llama 3 (8B)"
+    elif model_preference == 'llama2':
+        model_name = "Llama 2"
+    elif model_preference == 'mistral':
+        model_name = "Mistral"
+    elif model_preference == 'falcon':
+        model_name = "Falcon"
     else:
-        model_name = "DeepSeek R1"
+        model_name = "Llama 3 (8B)"
     
     return render_template("report.html", report=report, responses=responses, model_name=model_name)
 
