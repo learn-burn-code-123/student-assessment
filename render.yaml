@@ -3,8 +3,10 @@ services:
     name: student-assessment
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn app:app
+    startCommand: gunicorn app:app -c gunicorn_config.py
     healthCheckPath: /
+    plan: starter
+    autoDeploy: true
     buildFilter:
       paths:
         - requirements.txt
@@ -22,3 +24,7 @@ services:
         value: production
       - key: DEBUG
         value: false
+      - key: RENDER
+        value: true
+      - key: LLM_MODEL_PREFERENCE
+        value: llama3

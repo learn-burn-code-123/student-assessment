@@ -101,9 +101,9 @@ class AIEngine:
         try:
             # Initialize with a more lightweight approach
             # Check if we're in a memory-constrained environment (like Render free tier)
-            if os.environ.get('RENDER') == 'true' and os.environ.get('RENDER_MEMORY_LIMIT'):
+            if os.environ.get('RENDER') == 'true':
                 # Use a more lightweight approach for Render
-                logger.info("Running in Render environment with memory constraints. Using lightweight mode.")
+                logger.info("Running in Render environment. Using lightweight mode.")
                 self.is_lightweight = True
             else:
                 self.is_lightweight = False
