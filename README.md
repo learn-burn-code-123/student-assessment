@@ -21,6 +21,11 @@
 - 数据处理: NumPy, Pandas, Jieba分词
 - 机器学习: Scikit-learn
 
+## 环境变量
+
+- `HF_API_TOKEN`: Hugging Face API令牌，用于访问开源LLM模型
+- `LLM_MODEL_PREFERENCE`: 选择要使用的LLM模型（llama3, llama2, mistral, falcon）
+
 ## 安装与运行
 
 1. 克隆仓库
