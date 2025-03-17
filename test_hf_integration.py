@@ -98,7 +98,7 @@ class TestHFIntegration(unittest.TestCase):
                 print(report.get("summary", "摘要生成失败"))
                 
                 # Save the full report to a file for inspection
-                report_filename = f'test_{model_preference}_report.json'
+                report_filename = 'test_ai_report.json'
                 with open(report_filename, 'w', encoding='utf-8') as f:
                     json.dump(report, f, ensure_ascii=False, indent=2)
                 logger.info(f"Full report saved to {report_filename}")
