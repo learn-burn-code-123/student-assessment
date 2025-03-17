@@ -1,12 +1,13 @@
 # 学生评估系统 (Student Assessment System)
 
-这是一个专为中国高中生设计的评估系统，旨在评估学生的发展状况、兴趣、心理状况、能力和发展点。系统提供基于PaddleNLP的AI辅助个性化结果报告，避免市场上常见的通用模板式评估。
+这是一个专为高中生设计的评估系统，旨在评估学生的发展状况、兴趣、心理状况、能力和发展点。系统提供基于开源LLM模型的AI辅助个性化结果报告，避免市场上常见的通用模板式评估。
 
 ## 功能特点
 
 - 全中文界面和评估报告
 - 多维度学生评估问卷
-- 基于PaddleNLP的AI引擎生成深度个性化报告
+- 基于开源LLM模型的AI引擎生成深度个性化报告
+- 支持多种开源LLM模型（Llama 3、Llama 2、Mistral、Falcon）
 - 智能匹配适合学生特点的大学专业和职业方向
 - 基于学习风格和挑战的个性化学习策略建议
 - 针对顶尖美国、英国和香港大学申请的详细建议
@@ -16,7 +17,7 @@
 
 - 后端: Flask (Python)
 - 前端: HTML, CSS, JavaScript, Bootstrap 5
-- AI引擎: PaddleNLP, PaddlePaddle (百度开源AI框架)
+- AI引擎: Hugging Face API, 开源LLM模型 (默认使用Llama 3 8B)
 - 数据处理: NumPy, Pandas, Jieba分词
 - 机器学习: Scikit-learn
 
