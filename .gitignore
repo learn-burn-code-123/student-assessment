@@ -39,6 +39,11 @@ htmlcov/
 .coverage.*
 .cache
 nosetests.xml
+
+# Environment files
+.env
+.env.*
+!.env.example
 coverage.xml
 *.cover
 .hypothesis/

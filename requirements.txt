@@ -22,3 +22,8 @@ sentencepiece==0.2.0
 
 # Deployment dependencies
 psycopg2-binary==2.9.6
+
+# AI integration - Hugging Face for LLM access
+transformers==4.36.2
+torch==2.1.2
+huggingface-hub==0.20.2

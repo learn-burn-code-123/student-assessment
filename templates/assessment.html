@@ -457,13 +457,28 @@
             
             function updateProgress() {
                 let filledInputs = 0;
+                let processedNames = new Set();
+                
                 inputs.forEach(input => {
-                    if (input.value.trim() !== '') {
+                    // Skip if we've already counted a checkbox with this name
+                    if (input.type === 'checkbox' && processedNames.has(input.name)) {
+                        return;
+                    }
+                    
+                    if (input.type === 'checkbox') {
+                        // For checkboxes, check if any in the group is checked
+                        const checkboxes = form.querySelectorAll(`input[type="checkbox"][name="${input.name}"]`);
+                        const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
+                        if (anyChecked) {
+                            filledInputs++;
+                        }
+                        processedNames.add(input.name);
+                    } else if (input.value.trim() !== '') {
                         filledInputs++;
                     }
                 });
                 
-                const progress = Math.round((filledInputs / totalInputs) * 100);
+                const progress = Math.round((filledInputs / (totalInputs - processedNames.size + processedNames.size)) * 100);
                 progressBar.style.width = progress + '%';
                 progressBar.setAttribute('aria-valuenow', progress);
             }
@@ -498,6 +513,15 @@
                 // Collect form data
                 const formData = {};
                 
+                // Get all question IDs with multiselect type
+                const multiselectQuestions = [];
+                document.querySelectorAll('.multiselect-options').forEach(container => {
+                    const checkboxes = container.querySelectorAll('input[type="checkbox"]');
+                    if (checkboxes.length > 0) {
+                        multiselectQuestions.push(checkboxes[0].name);
+                    }
+                });
+                
                 // Process all form inputs
                 Array.from(form.elements).forEach(element => {
                     // Skip elements without a name
@@ -513,6 +537,13 @@
                     // Handle other input types
                     else if (element.type !== 'checkbox' && element.value) {
                         formData[element.name] = element.value;
+                    }
+                });
+                
+                // Ensure all multiselect questions have an array value, even if empty
+                multiselectQuestions.forEach(questionId => {
+                    if (!formData[questionId]) {
+                        formData[questionId] = [];
                     }
                 });
                 

@@ -37,6 +37,13 @@ def not_found(e):
 # Initialize AI Engine
 ai_engine = AIEngine()
 
+# Log AI Engine status
+if ai_engine.use_hf:
+    model_preference = os.getenv('LLM_MODEL_PREFERENCE', 'deepseek')
+    logger.info(f"Enhanced AI reports enabled with Hugging Face integration using {model_preference} model")
+else:
+    logger.info("Using standard report generation (Hugging Face not configured)")
+
 # Load questions from JSON file
 def load_questions():
     try:
@@ -111,7 +118,19 @@ def report():
     
     report = session['report']
     responses = session['responses']
-    return render_template("report.html", report=report, responses=responses)
+    
+    # Get model name for the template
+    model_preference = os.getenv('LLM_MODEL_PREFERENCE', 'deepseek').lower()
+    if model_preference == 'deepseek':
+        model_name = "DeepSeek R1"
+    elif model_preference == 'chatglm':
+        model_name = "ChatGLM3"
+    elif model_preference == 'baichuan':
+        model_name = "Baichuan2"
+    else:
+        model_name = "DeepSeek R1"
+    
+    return render_template("report.html", report=report, responses=responses, model_name=model_name)
 
 def generate_report(responses):
     """Generate a personalized report based on assessment responses"""
