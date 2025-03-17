@@ -10,19 +10,68 @@ import pandas as pd
 import random
 import logging
 
-# Mock class to simulate Taskflow
+# Enhanced mock class to simulate Taskflow with more personalized responses
 class Taskflow:
     def __init__(self, task_type):
         self.task_type = task_type
     
     def __call__(self, text):
         if self.task_type == "sentiment_analysis":
-            return [{"text": text, "label": random.choice(["positive", "negative"]), "score": random.uniform(0.6, 0.9)}]
+            # More nuanced sentiment analysis based on keywords
+            positive_keywords = ["喜欢", "热爱", "擅长", "优势", "强项", "好", "兴趣", "爱好"]
+            negative_keywords = ["困难", "挑战", "弱项", "不喜欢", "讨厌", "问题", "难", "差"]
+            
+            pos_count = sum(1 for word in positive_keywords if word in text)
+            neg_count = sum(1 for word in negative_keywords if word in text)
+            
+            if pos_count > neg_count:
+                label = "positive"
+                score = 0.5 + (pos_count / (pos_count + neg_count + 1)) * 0.4
+            else:
+                label = "negative"
+                score = 0.5 + (neg_count / (pos_count + neg_count + 1)) * 0.4
+                
+            return [{"text": text, "label": label, "score": score}]
+            
         elif self.task_type == "text_classification":
-            return [{"text": text, "label": random.choice(["education", "career", "personality"]), "score": random.uniform(0.6, 0.9)}]
+            # More intelligent classification based on content
+            education_keywords = ["学习", "学校", "课程", "成绩", "考试", "老师", "教育", "知识"]
+            career_keywords = ["工作", "职业", "就业", "行业", "公司", "薪资", "职场", "创业"]
+            personality_keywords = ["性格", "特点", "习惯", "爱好", "兴趣", "情绪", "感受", "思考"]
+            
+            edu_count = sum(1 for word in education_keywords if word in text)
+            career_count = sum(1 for word in career_keywords if word in text)
+            pers_count = sum(1 for word in personality_keywords if word in text)
+            
+            counts = {"education": edu_count, "career": career_count, "personality": pers_count}
+            max_category = max(counts, key=counts.get)
+            max_count = counts[max_category]
+            total = sum(counts.values())
+            
+            score = 0.6 + (max_count / (total + 1)) * 0.3
+            return [{"text": text, "label": max_category, "score": score}]
+            
         elif self.task_type == "keyword_extraction":
-            words = text.split()
-            return [{"word": word, "score": random.uniform(0.6, 0.9)} for word in random.sample(words, min(5, len(words)))]
+            # More intelligent keyword extraction
+            # First split by common separators
+            segments = [s.strip() for segment in text.split('，') for s in segment.split('、')]
+            segments = [s for s in segments if len(s) > 1]  # Filter out too short segments
+            
+            # Prioritize segments with important markers
+            important_markers = ["最", "很", "非常", "特别", "尤其", "擅长", "喜欢", "热爱"]
+            priority_segments = [s for s in segments if any(marker in s for marker in important_markers)]
+            
+            # Combine priority and regular segments, with priority first
+            combined_segments = priority_segments + [s for s in segments if s not in priority_segments]
+            
+            # Take up to 5 keywords, with higher scores for priority ones
+            result = []
+            for i, segment in enumerate(combined_segments[:5]):
+                is_priority = segment in priority_segments
+                score = 0.7 + 0.2 * (1 if is_priority else 0) - (i * 0.02)  # Decrease score slightly by position
+                result.append({"word": segment, "score": score})
+                
+            return result
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -65,16 +114,28 @@ class AIEngine:
             return {}
     
     def _extract_keywords(self, text):
-        """Extract keywords from text using PaddleNLP"""
+        """Extract keywords from text using enhanced keyword extraction"""
         try:
             if not text or text == "未提供":
                 return []
             
+            # Use our enhanced keyword extractor
             result = self.keyword_extractor(text)
-            return [item['word'] for item in result]
+            
+            # If we got results, use them
+            if result:
+                return [item['word'] for item in result]
+            
+            # Fallback method if the above fails
+            segments = [s.strip() for segment in text.split('，') for s in segment.split('、')]
+            segments = [s for s in segments if len(s) > 1]  # Filter out too short segments
+            
+            # Return up to 5 segments
+            return segments[:5]
         except Exception as e:
             logger.error(f"Error extracting keywords: {str(e)}")
-            return []
+            # Even more basic fallback
+            return [text[:min(len(text), 10)]] if text else []
     
     def _analyze_sentiment(self, text):
         """Analyze sentiment of text using PaddleNLP"""
